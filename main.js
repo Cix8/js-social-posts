@@ -97,7 +97,8 @@ function addButtonsEvents(array) {
                     likedPosts.push(element.id);
                 } else if (thisDataPostId == element.id && likedPosts.includes(element.id)) {
                     element.likes--;
-                    let indexOfElement = likedPosts.indexOf(element);
+                    let indexOfElement = likedPosts.indexOf(element.id);
+                    console.log(indexOfElement);
                     likedPosts.splice(indexOfElement); 
                 }
                 console.log(element, element.likes);
