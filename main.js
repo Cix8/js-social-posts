@@ -107,4 +107,5 @@ function initials(obj) {
     const firstChar = result[0].charAt(0);
     const secondChar = result[1].charAt(0);
     result = `${firstChar} ${secondChar}`;
+    return result
 }
