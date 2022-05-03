@@ -1,5 +1,7 @@
 const posts = [];
 
+const likedPosts = [];
+
 const namesArray = ["Phil Mangione","Manuelita Benassai","Oldano Abela","Zelmina Arlotti","Ariele Straccioni"];
 console.log(namesArray.length);
 
@@ -14,7 +16,7 @@ for (let i = 0; i < objNumber; i++) {
             "image": "https://unsplash.it/300/300?image="+(i+1)
         },
         "likes": getRndInteger(1,200),
-        "created": `${getRndInteger(2000, 2022)} - ${getRndInteger(1,12)} - ${getRndInteger(1,28)}`
+        "created": `${getRndInteger(1,28)} - ${getRndInteger(1,12)} - ${getRndInteger(2000, 2022)}`
     }
 
     posts.push(newObj)
@@ -35,6 +37,7 @@ function getRndInteger(min, max) {
 
 function postPrint(container) {
     posts.forEach( element => {
+        const newInitials = initials(element);
         const newPost = `
             <div class="post">
                 <div class="post__header">
@@ -50,7 +53,7 @@ function postPrint(container) {
                 </div>
                 <div class="post__text">${element.content}</div>
                 <div class="post__image">
-                    <img src="${element.media}" alt="">
+                    <img src="${element.media}" alt="${newInitials}">
                 </div>
                 <div class="post__footer">
                     <div class="likes js-likes">
@@ -89,13 +92,26 @@ function addButtonsEvents(array) {
             const thisDataPostId = this.attributes[2].nodeValue;
             console.log(thisDataPostId);
             posts.forEach( element => {
-                if (thisDataPostId == element.id) {
+                if (thisDataPostId == element.id && !likedPosts.includes(element.id)) {
                     element.likes++;
-                    console.log(element, element.likes);
-                    postsContainer.innerHTML = '';
-                    postPrint(postsContainer);
+                    likedPosts.push(element.id);
+                } else if (thisDataPostId == element.id && likedPosts.includes(element.id)) {
+                    element.likes--;
+                    let indexOfElement = likedPosts.indexOf(element);
+                    likedPosts.splice(indexOfElement); 
                 }
+                console.log(element, element.likes);
+                postsContainer.innerHTML = '';
+                postPrint(postsContainer);
             })
         })
     })
+}
+
+function initials(obj) {
+    let result = obj.author.name.split(" ");
+    const firstChar = result[0].charAt(0);
+    const secondChar = result[1].charAt(0);
+    result = `${firstChar} ${secondChar}`;
+    console.log(result);
 }
