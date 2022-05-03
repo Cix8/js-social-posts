@@ -1,11 +1,6 @@
-const posts = [];
-
-const likedPosts = [];
-
 const namesArray = ["Phil Mangione","Manuelita Benassai","Oldano Abela","Zelmina Arlotti","Ariele Straccioni"];
-
-arrayOfObjGenerator(posts, namesArray, namesArray.length);
-
+const posts = arrayOfObjGenerator(namesArray, namesArray.length);
+const likedPosts = [];
 const postsContainer = document.getElementById('container');
 
 postPrint(posts, postsContainer);
@@ -16,7 +11,8 @@ function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
-function arrayOfObjGenerator(arrayContainer, arrayOfPeople, arrayOfPeopleLength) {
+function arrayOfObjGenerator(arrayOfPeople, arrayOfPeopleLength) {
+    const arrayContainer = [];
     for (let i = 0; i < arrayOfPeopleLength; i++) {
         const newObj = {
             "id": i + 1,
@@ -32,6 +28,8 @@ function arrayOfObjGenerator(arrayContainer, arrayOfPeople, arrayOfPeopleLength)
     
         arrayContainer.push(newObj)
     }
+
+    return arrayContainer
 }
 
 function postPrint(arrayOfObj, container) {
