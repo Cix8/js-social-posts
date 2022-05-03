@@ -3,7 +3,6 @@ const posts = [];
 const likedPosts = [];
 
 const namesArray = ["Phil Mangione","Manuelita Benassai","Oldano Abela","Zelmina Arlotti","Ariele Straccioni"];
-console.log(namesArray.length);
 
 const objNumber = 5;
 for (let i = 0; i < objNumber; i++) {
@@ -22,10 +21,7 @@ for (let i = 0; i < objNumber; i++) {
     posts.push(newObj)
 }
 
-console.log(posts);
-
 const postsContainer = document.getElementById('container');
-console.log(postsContainer);
 
 postPrint(postsContainer);
 
@@ -77,20 +73,18 @@ function postPrint(container) {
 
     for (let i = 1; i <= posts.length; i++) {
         const thisButton = document.querySelector('.post:nth-child('+i+') .like-button');
-        console.log(thisButton);
         buttonsArray.push(thisButton);
-    } 
-    
-    console.log(buttonsArray);
+    }
     
     addButtonsEvents(buttonsArray);
+
+    console.log(likedPosts);
 }
 
 function addButtonsEvents(array) {
     array.forEach( button => {
         button.addEventListener('click', function() {
             const thisDataPostId = this.attributes[2].nodeValue;
-            console.log(thisDataPostId);
             posts.forEach( element => {
                 if (thisDataPostId == element.id && !likedPosts.includes(element.id)) {
                     element.likes++;
@@ -99,9 +93,8 @@ function addButtonsEvents(array) {
                     element.likes--;
                     let indexOfElement = likedPosts.indexOf(element.id);
                     console.log(indexOfElement);
-                    likedPosts.splice(indexOfElement); 
+                    likedPosts.splice(indexOfElement, 1); 
                 }
-                console.log(element, element.likes);
                 postsContainer.innerHTML = '';
                 postPrint(postsContainer);
             })
@@ -114,5 +107,4 @@ function initials(obj) {
     const firstChar = result[0].charAt(0);
     const secondChar = result[1].charAt(0);
     result = `${firstChar} ${secondChar}`;
-    console.log(result);
 }
