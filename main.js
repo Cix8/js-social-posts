@@ -4,26 +4,11 @@ const likedPosts = [];
 
 const namesArray = ["Phil Mangione","Manuelita Benassai","Oldano Abela","Zelmina Arlotti","Ariele Straccioni"];
 
-const objNumber = 5;
-for (let i = 0; i < objNumber; i++) {
-    const newObj = {
-        "id": i + 1,
-        "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
-        "media": `https://unsplash.it/600/300?image=${getRndInteger(1,50)}`,
-        "author": {
-            "name": namesArray[i],
-            "image": "https://unsplash.it/300/300?image="+(i+1)
-        },
-        "likes": getRndInteger(1,200),
-        "created": `${getRndInteger(1,28)} - ${getRndInteger(1,12)} - ${getRndInteger(2000, 2022)}`
-    }
-
-    posts.push(newObj)
-}
+arrayOfObjGenerator(posts, namesArray, namesArray.length);
 
 const postsContainer = document.getElementById('container');
 
-postPrint(postsContainer);
+postPrint(posts, postsContainer);
 
 //                      FUNCTIONS
 
@@ -31,8 +16,26 @@ function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
-function postPrint(container) {
-    posts.forEach( element => {
+function arrayOfObjGenerator(arrayContainer, arrayOfPeople, arrayOfPeopleLength) {
+    for (let i = 0; i < arrayOfPeopleLength; i++) {
+        const newObj = {
+            "id": i + 1,
+            "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
+            "media": `https://unsplash.it/600/300?image=${getRndInteger(1,50)}`,
+            "author": {
+                "name": arrayOfPeople[i],
+                "image": "https://unsplash.it/300/300?image="+(i+1)
+            },
+            "likes": getRndInteger(1,200),
+            "created": `${getRndInteger(1,28)} - ${getRndInteger(1,12)} - ${getRndInteger(2000, 2022)}`
+        }
+    
+        arrayContainer.push(newObj)
+    }
+}
+
+function postPrint(arrayOfObj, container) {
+    arrayOfObj.forEach( element => {
         const newInitials = initials(element);
         const newPost = `
             <div class="post">
@@ -76,16 +79,16 @@ function postPrint(container) {
         buttonsArray.push(thisButton);
     }
     
-    addButtonsEvents(buttonsArray);
+    addButtonsEvents(arrayOfObj, buttonsArray);
 
     console.log(likedPosts);
 }
 
-function addButtonsEvents(array) {
+function addButtonsEvents(arrayOfObj, array) {
     array.forEach( button => {
         button.addEventListener('click', function() {
             const thisDataPostId = this.attributes[2].nodeValue;
-            posts.forEach( element => {
+            arrayOfObj.forEach( element => {
                 if (thisDataPostId == element.id && !likedPosts.includes(element.id)) {
                     element.likes++;
                     likedPosts.push(element.id);
@@ -96,7 +99,7 @@ function addButtonsEvents(array) {
                     likedPosts.splice(indexOfElement, 1); 
                 }
                 postsContainer.innerHTML = '';
-                postPrint(postsContainer);
+                postPrint(posts, postsContainer);
             })
         })
     })
